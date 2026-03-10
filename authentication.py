@@ -40,7 +40,7 @@ class Authentication :
             elif number == "q" :
                 print("try again later 📛")
                 return None
-            elif number in self.all_numbers :
+            elif number in self.all_numbers() :
                 print("you already have an account,go to log in page 📛")
             else :
                 print("valid pin ✅")
