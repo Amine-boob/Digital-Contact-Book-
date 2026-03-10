@@ -3,7 +3,7 @@ class User :   # ✅⛔️
         self.phone_number = phone_number
         self.username = username 
         self.pin = pin  
-        self.contacts = {}
+        self.all_numbers = {}
 
 
     def add_contact(self):
@@ -20,10 +20,7 @@ class User :   # ✅⛔️
     
 
 
-names = []
-something = []
-for name in names :
-   something.append(name)
+
 
 
 
