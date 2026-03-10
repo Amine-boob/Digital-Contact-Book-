@@ -68,7 +68,7 @@ class Authentication :
                 return 
             elif username == "":
                 print("enter something 📛")
-            elif username in self.all_usernames :
+            elif username in self.all_usernames() :
                 print("username already exist, pick another one 📛")
             else : 
                 result = User(number,username,hash_pin)
