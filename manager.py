@@ -39,7 +39,10 @@ class ContactManager :
             self.print_menu()
             choice = input("enter your choice :")
             if choice == "1":
-                pass
+                data = self.authentication.register()
+                if data :
+                    current_user = data 
+                    print("account created ")
             elif choice == "2":
                 self.authentication.log_in()
             elif choice == "3":

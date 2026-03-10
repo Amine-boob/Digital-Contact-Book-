@@ -1,15 +1,30 @@
+from utils import *
+from user import *
 import bcrypt
+import getpass
+
 class Authentication :
     def __init__(self):
         self.all_users = []
-        self.current_user = ""   # User(..,..)
 
     def all_numbers(self):
-        names = []
-        for user in self.all_users :
-            names.append(user.phone_number)
-        return names
+        if self.all_users :
+            names = []
+            for user in self.all_users :
+                names.append(user.phone_number)
+            return names
+        else :
+            return []
     
+    def all_usernames(self):
+        if self.all_users :
+            usernames = []
+            for user in self.all_users :
+                usernames.append(user.username)
+            return usernames
+        else :
+            return []
+
     def get_current_user(self,number) :
         for user in self.all_users :
             if user.phone_number == number :
@@ -18,7 +33,47 @@ class Authentication :
 
 
     def register(self):
-        pass
+        while True :
+            number = input("set a phone number (q to quit)")
+            if number == "":
+                print("enter something 📛")
+            elif number == "q" :
+                print("try again later 📛")
+                return None
+            elif number in self.all_numbers :
+                print("you already have an account,go to log in page 📛")
+            else :
+                print("valid pin ✅")
+                break 
+            
+        while True :
+                pin = getpass.getpass("set a pin using 4 digits (q to quit):")
+                if pin == "q":
+                    print("try again later 📛")
+                    return None
+                elif not pin.isdigit():
+                    print("enter just digits 📛")
+                elif pin == "":
+                    print("enter something !📛")
+                elif len(pin) != 4 :
+                    print("enter a pin from 4 digits📛")
+                else :   
+                    hash_pin = hash_function(pin)
+                    print("valid pin ✅")                                       
+                    break
+        while True :
+            username = input("set a username (q to quit):")
+            if username == "q":
+                print("try again later 📛")
+                return 
+            elif username == "":
+                print("enter something 📛")
+            elif username in self.all_usernames :
+                print("username already exist, pick another one 📛")
+            else : 
+                result = User(number,username,hash_pin)
+                self.all_users.append(result)
+                return result
 
     def log_in(self):
         while True :
@@ -28,7 +83,7 @@ class Authentication :
                 return 
             elif number == "":
                 print("enter something !⛔️")
-            elif number not in self.all_numbers :
+            elif number not in self.all_numbers() :
                 print("phone number not exist !⛔️")
             else :
                 print("account found ✅")
@@ -58,3 +113,5 @@ class Authentication :
 
     def verify_pin(self,pin,hash_pin):
         pass
+
+
