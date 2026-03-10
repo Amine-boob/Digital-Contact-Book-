@@ -6,7 +6,9 @@ class Authentication :
         pass
 
     def log_in(self):
-        pass
+        while True :
+            print("do you want to log in :")
+            input ("why ar not :")
 
     def log_out(self):
         pass

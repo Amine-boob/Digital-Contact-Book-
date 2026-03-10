@@ -1,11 +1,12 @@
 from admin import *
 from utils import *
-
+from authentication import *
 
 
 class ContactManager :
     def __init__(self):
-        #self.admin = Admin()
+        self.admin = Admin()
+        self.authentication = Authentication()
         self.menu = ["Rigister",
                      "log in with your phone number",
                      "log out",
@@ -18,10 +19,15 @@ class ContactManager :
         global decorator_message
   
 
-    @decorator_message("ghhghghghghhghghghghgh")
+    @decorator_message("menu")
     def print_menu(self):
         for index ,line in enumerate(self.menu,start=1) :
             print(f"{index}-{line}")
+    
+    def log_in(self):
+        while True :
+            number = input("enter your number :")
+
 
     def run(self):
         while True :
@@ -30,7 +36,7 @@ class ContactManager :
             if choice == "1":
                 pass
             elif choice == "2":
-                pass
+                self.authentication.log_in()
             elif choice == "3":
                 pass
             elif choice == "4":
