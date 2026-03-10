@@ -1,12 +1,13 @@
 from admin import *
 from utils import *
 from authentication import *
-
+from storage import *
 
 class ContactManager :
     def __init__(self):
         self.admin = Admin()
         self.authentication = Authentication()
+        self.storage = Storage()
         self.menu = ["Rigister",
                      "log in with your phone number",
                      "log out",
@@ -23,13 +24,17 @@ class ContactManager :
     def print_menu(self):
         for index ,line in enumerate(self.menu,start=1) :
             print(f"{index}-{line}")
-    
-    def log_in(self):
-        while True :
-            number = input("enter your number :")
+
 
 
     def run(self):
+        # get data from the file if it exist :
+        existing_data = self.storage.get_data_from_file()
+        if existing_data :
+            self.authentication.all_users = existing_data 
+        
+        current_user = None
+         
         while True :
             self.print_menu()
             choice = input("enter your choice :")

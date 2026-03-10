@@ -12,14 +12,15 @@ class Storage :
         try : 
             with open(self.path_to_db , "rb") as file :
                 data = pickle.load(file)
-                self.all_users = data
+            return data 
         except FileNotFoundError :
             with open(self.path_to_db ,"wb") as file :
                 pickle.dump([],file)
+            return []
 
     def add_data_to_file(self,data):
         with open(self.path_to_db ,"wb") as file :
             pickle.dump(data,file)
 
-    def save_changes(self) :
-        self.add_data_to_file()
+    def save_changes(self,data) :
+        self.add_data_to_file(data)

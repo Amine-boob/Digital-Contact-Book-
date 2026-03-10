@@ -1,6 +1,6 @@
 import bcrypt 
 
-def hash_function(self,pwd):
+def hash_function(pwd):
     byte_pwd = pwd.encode("utf-8")
     return bcrypt.hashpw(byte_pwd,bcrypt.gensalt(rounds=14))
 
