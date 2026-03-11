@@ -1,4 +1,5 @@
 
+from admin import *
 import pathlib
 import pickle
 import os
@@ -7,6 +8,7 @@ class Storage :
     def __init__(self):
         self.path = pathlib.Path.home()
         self.path_to_db = os.path.join(self.path,"Contact Book.db")
+        self.usermanager = UserManager()
 
     def get_data_from_file(self):
         try : 
@@ -24,3 +26,6 @@ class Storage :
 
     def save_changes(self,data) :
         self.add_data_to_file(data)
+
+
+

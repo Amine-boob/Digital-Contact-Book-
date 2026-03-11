@@ -10,10 +10,16 @@ def decorator_message(message) :
         def wrapper(*args,**kwargs):
             print(f"-------- {message} --------")
             result = func(*args,**kwargs)
-            print(F"-------------------"+"-"*len(message))
+            print(F"------------------"+"-"*len(message))
             return result
         return wrapper
     return add_decorator
 
+
+def get_data(data):
+        if data :
+            return data 
+        else :
+            return "-"
 
 

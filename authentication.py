@@ -8,6 +8,7 @@ class Authentication :
     def __init__(self):
         self.all_users = []
         self.storage = Storage()
+        
 
     def all_numbers(self):
         if self.all_users :
@@ -44,7 +45,7 @@ class Authentication :
             elif number in self.all_numbers() :
                 print("you already have an account,go to log in page 📛")
             else :
-                print("valid pin ✅")
+                print("valid number ✅")
                 break 
             
         while True :
@@ -74,6 +75,7 @@ class Authentication :
             else : 
                 result = User(number,username,hash_pin)
                 self.all_users.append(result)
+                self.storage.add_data_to_file(self.all_users)
                 print("account created ✅")
                 return result
 
@@ -82,7 +84,7 @@ class Authentication :
             number = input("verify your number (q to quit ):")
             if number == "q":
                 print("try again later !⛔️")
-                return 
+                return None
             elif number == "":
                 print("enter something !⛔️")
             elif number not in self.all_numbers() :
@@ -90,27 +92,28 @@ class Authentication :
             else :
                 print("account found ✅")
                 break
-        passward_attempt = 2
+        password_attempt = 2
         user_password = self.get_current_user(number).pin   #get the password from the database
         while True :
-            pin = input("verify yor pin ")
+            pin = getpass.getpass("verify yor pin (q to quit) :")
             if pin == "q":
                 print("try again later !⛔️")
-                return 
+                return None
             elif pin == "":
                 print("enter something !⛔️")
             elif self.verify_pin(pin,user_password) :
-                self.storage.add_data_to_file(self.all_users)
+                data = self.get_current_user(number)
                 print("correct pin ✅")
-                break
-            elif passward_attempt > 0 :
-                print(f"incorrect pin, you still have {passward_attempt} left ⛔️")
+                print(f"wecome back {data.username}")
+                return data 
+            elif password_attempt > 0 :
+                print(f"incorrect pin, you still have {password_attempt} left ⛔️")
+                password_attempt -= 1
             else :
                 print("try again later ⛔️")
                 break
             
             
-
     def log_out(self):
         pass
 
