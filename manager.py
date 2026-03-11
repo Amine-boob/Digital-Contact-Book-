@@ -20,7 +20,7 @@ class ContactManager :
         global decorator_message
   
 
-    @decorator_message("menu")
+    @decorator_message("amine")
     def print_menu(self):
         for index ,line in enumerate(self.menu,start=1) :
             print(f"{index}-{line}")
