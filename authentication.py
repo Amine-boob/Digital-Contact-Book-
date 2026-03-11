@@ -1,11 +1,13 @@
 from utils import *
 from user import *
+from storage import *
 import bcrypt
 import getpass
 
 class Authentication :
     def __init__(self):
         self.all_users = []
+        self.storage = Storage()
 
     def all_numbers(self):
         if self.all_users :
@@ -30,7 +32,6 @@ class Authentication :
             if user.phone_number == number :
                 return user 
         return None 
-
 
     def register(self):
         while True :
@@ -73,6 +74,7 @@ class Authentication :
             else : 
                 result = User(number,username,hash_pin)
                 self.all_users.append(result)
+                print("account created ✅")
                 return result
 
     def log_in(self):
@@ -98,6 +100,7 @@ class Authentication :
             elif pin == "":
                 print("enter something !⛔️")
             elif self.verify_pin(pin,user_password) :
+                self.storage.add_data_to_file(self.all_users)
                 print("correct pin ✅")
                 break
             elif passward_attempt > 0 :
@@ -112,6 +115,9 @@ class Authentication :
         pass
 
     def verify_pin(self,pin,hash_pin):
-        pass
+        if bcrypt.checkpw(pin.encode("utf-8"),hash_pin) :
+            return True 
+        else :
+            return False
 
 

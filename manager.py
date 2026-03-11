@@ -20,12 +20,10 @@ class ContactManager :
         global decorator_message
   
 
-    @decorator_message("amine")
+    @decorator_message("menu")
     def print_menu(self):
         for index ,line in enumerate(self.menu,start=1) :
             print(f"{index}-{line}")
-
-
 
     def run(self):
         # get data from the file if it exist :
@@ -42,7 +40,7 @@ class ContactManager :
                 data = self.authentication.register()
                 if data :
                     current_user = data 
-                    print("account created ")
+                    
             elif choice == "2":
                 self.authentication.log_in()
             elif choice == "3":

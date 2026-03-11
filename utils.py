@@ -15,5 +15,5 @@ def decorator_message(message) :
         return wrapper
     return add_decorator
 
-print("hello")
+
 
