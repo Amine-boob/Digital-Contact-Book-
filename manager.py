@@ -107,7 +107,13 @@ class ContactManager :
                    "the note    :"]
         for index,message in enumerate(details,start=2) :
             print(f"{message}{user_data[index]}")
-        
+    
+    def auth_require(self):
+        if not self.current_user :
+            print("you need to login ⛔️")
+            return False 
+        return True 
+
 
     def run(self):
         self.storage.connect_to_database()
@@ -118,12 +124,10 @@ class ContactManager :
                 data = self.authentication.register()
                 if data :
                     self.current_user = data
-
             elif choice == "2":
                 data = self.authentication.log_in()
                 if data :
                     self.current_user = data
-
             elif choice == "3":
                 if self.current_user == None :
                     print("you are already logged out ⛔️")
@@ -131,45 +135,33 @@ class ContactManager :
                     print("you successfully logged out ✅")
                     print(f"see you soon {self.current_user[2]}")
                     self.current_user = None 
-
             elif choice == "4":
-                if self.current_user :
+                if self.auth_require() :
                     self.show_contact()
-                else :
-                    print("you must log in first ⛔️")    
             elif choice == "5":
-                if self.current_user :
+                if self.auth_require() :
                     contact_name = self.input_contact_name()
                     if contact_name :
                         self.get_more_detail_about_contact(contact_name)
                     else :
                         pass
-                else :
-                    print("you must log in first ⛔️")
-
             elif choice == "6":
-                if self.current_user :
+                if self.auth_require() :
                     self.add_contact()
-                else :
-                    print("you must log in first ⛔️")
             elif choice == "7":
-                if self.current_user :
+                if self.auth_require() :
                     contact_name = self.input_contact_name()
                     if contact_name :
                         self.delete_contact(contact_name)
                     else :
                         pass
-                else :
-                    print("you must log in first ⛔️")
             elif choice == "8":
-                if self.current_user :
+                if self.auth_require() :
                     contact_name = self.input_contact_name()
                     if contact_name :
                         self.edit_contact(contact_name)
                     else :
                         pass
-                else :
-                    print("you must log in first ⛔️")
             elif choice == "9" :
                 print("See you later !")
                 break
