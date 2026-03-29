@@ -1,38 +1,10 @@
-from utils import *
-from user import *
+from utils import * 
 from storage import *
-import bcrypt
 import getpass
 
 class Authentication :
     def __init__(self):
-        self.all_users = []
         self.storage = Storage()
-        
-
-    def all_numbers(self):
-        if self.all_users :
-            names = []
-            for user in self.all_users :
-                names.append(user.phone_number)
-            return names
-        else :
-            return []
-    
-    def all_usernames(self):
-        if self.all_users :
-            usernames = []
-            for user in self.all_users :
-                usernames.append(user.username)
-            return usernames
-        else :
-            return []
-
-    def get_current_user(self,number) :
-        for user in self.all_users :
-            if user.phone_number == number :
-                return user 
-        return None 
 
     def register(self):
         while True :
@@ -42,12 +14,11 @@ class Authentication :
             elif number == "q" :
                 print("try again later 📛")
                 return None
-            elif number in self.all_numbers() :
+            elif self.storage.user_data(number)  :
                 print("you already have an account,go to log in page 📛")
             else :
                 print("valid number ✅")
-                break 
-            
+                break             
         while True :
                 pin = getpass.getpass("set a pin using 4 digits (q to quit):")
                 if pin == "q":
@@ -70,42 +41,40 @@ class Authentication :
                 return 
             elif username == "":
                 print("enter something 📛")
-            elif username in self.all_usernames() :
+            elif self.storage.check_if_username_exist(username) :
                 print("username already exist, pick another one 📛")
-            else : 
-                result = User(number,username,hash_pin)
-                self.all_users.append(result)
-                self.storage.add_data_to_file(self.all_users)
+            else :
+                self.storage.add_user(number,username,hash_pin)
                 print("account created ✅")
-                return result
+                return self.storage.user_data(number)
 
     def log_in(self):
         while True :
-            number = input("verify your number (q to quit ):")
+            number = input("verify your number (q to quit ):").strip()
             if number == "q":
                 print("try again later !⛔️")
                 return None
             elif number == "":
                 print("enter something !⛔️")
-            elif number not in self.all_numbers() :
+            elif self.storage.user_data(number) is None:
                 print("phone number not exist !⛔️")
             else :
                 print("account found ✅")
                 break
         password_attempt = 2
-        user_password = self.get_current_user(number).pin   #get the password from the database
+        user_data = self.storage.user_data(number)[0]
+        split_pwd = user_data[3]   
         while True :
-            pin = getpass.getpass("verify yor pin (q to quit) :")
+            pin = getpass.getpass("verify your pin (q to quit) :")
             if pin == "q":
                 print("try again later !⛔️")
                 return None
             elif pin == "":
                 print("enter something !⛔️")
-            elif self.verify_pin(pin,user_password) :
-                data = self.get_current_user(number)
+            elif verify_pin(pin,split_pwd) :
                 print("correct pin ✅")
-                print(f"wecome back {data.username}")
-                return data 
+                print(f"Wecome Back {user_data[2]}")
+                return user_data 
             elif password_attempt > 0 :
                 print(f"incorrect pin, you still have {password_attempt} left ⛔️")
                 password_attempt -= 1
@@ -113,14 +82,4 @@ class Authentication :
                 print("try again later ⛔️")
                 break
             
-            
-    def log_out(self):
-        pass
-
-    def verify_pin(self,pin,hash_pin):
-        if bcrypt.checkpw(pin.encode("utf-8"),hash_pin) :
-            return True 
-        else :
-            return False
-
 
