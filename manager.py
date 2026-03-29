@@ -71,9 +71,6 @@ class ContactManager :
         for index,message in enumerate(details,start=2) :
             print(f"{message}{user_data[index]}")
 
-    @decorator_message("Old Information")
-    def print_old_information(self) :
-        pass
     def delete_contact(self,name):
         userid = self.current_user[0]
         self.handlecontact.delete_contact(name,userid)
@@ -86,7 +83,8 @@ class ContactManager :
         email =user_data[4]
         address = user_data[5]
         notes = user_data[6]
-        self.print_contact_info(name)
+        print("➖here is the old information ➖")
+        self.get_more_detail_about_contact(name)
         print("➖ press (enter) to skip and not edit ➖")
         new_name = helper_with_edit_name(name,userid)
         new_phone = helper_edit_func(input("enter the new phone :"),phone)
@@ -95,25 +93,12 @@ class ContactManager :
         new_notes = helper_edit_func(input("enter the new notes :"),notes)
         self.handlecontact.edit_contact(userid,name,new_name,new_phone,new_email,new_address,new_notes)
         print("information changed ✅")
-
-    @decorator_message("Old Information")
-    def print_contact_info(self,name) :
-        userid = self.current_user[0]
-        user_data = self.handlecontact.check_if_the_contact_exist(name,userid)[0]
-        details = ["the name    :",
-                   "the phone   :",
-                   "the email   :",
-                   "the address :",
-                   "the note    :"]
-        for index,message in enumerate(details,start=2) :
-            print(f"{message}{user_data[index]}")
     
     def auth_require(self):
         if not self.current_user :
             print("you need to login ⛔️")
             return False 
         return True 
-
 
     def run(self):
         self.storage.connect_to_database()
